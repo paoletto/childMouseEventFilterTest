@@ -16,10 +16,12 @@ Window {
         color: 'firebrick'
 
         CircleMask {
+        //Item {
             anchors.fill: parent
 
             MouseArea {
                 anchors.fill: parent
+                hoverEnabled: true
 
                 onClicked: {
                     console.log("clicked")
@@ -29,6 +31,12 @@ Window {
                 }
                 onReleased: {
                     console.log("released")
+                }
+                onEntered: {
+                    console.log("entered")
+                }
+                onExited: {
+                    console.log("exited")
                 }
             }
         }
