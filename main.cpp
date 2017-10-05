@@ -27,8 +27,8 @@ protected:
         return false;
     }
     bool rejectEvent(QEvent *event) {
-        event->setAccepted(false);
-        return true;
+        event->setAccepted(false); // do not deliver to parents
+        return true; // do not deliver to *receiver
     }
 
     bool childMouseEventFilter(QQuickItem *item, QEvent *event) override
@@ -44,9 +44,15 @@ protected:
             break;
         case QEvent::MouseButtonRelease: {
                 if (!contains(static_cast<QMouseEvent*>(event)->pos())) {
+                    m_releasedOutside = true;
                     return rejectEvent(event);
                 } else {
-                    return acceptEvent(event);
+                    if (!m_releasedOutside) {
+                        return acceptEvent(event);
+                    } else {
+                        m_releasedOutside = false;
+                        return rejectEvent(event);
+                    }
                 }
             }
             break;
@@ -106,6 +112,7 @@ protected:
         }
     }
 
+    bool m_releasedOutside = false;
     bool m_hoverEntered = false;
 };
 

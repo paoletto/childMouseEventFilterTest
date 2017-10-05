@@ -9,7 +9,10 @@ Window {
     title: qsTr("Hello World")
 
     Rectangle {
-        anchors.centerIn: parent
+        id: rect
+        //anchors.centerIn: parent
+        x: parent.width * 0.25
+        y: parent.height * 0.25
         width: parent.width * 0.5
         height: width
         radius: width * 0.5
@@ -22,6 +25,7 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
+                drag.target: rect
 
                 onClicked: {
                     console.log("clicked")
@@ -37,6 +41,9 @@ Window {
                 }
                 onExited: {
                     console.log("exited")
+                }
+                onHoveredChanged: {
+                    console.log("hovered")
                 }
             }
         }
